@@ -154,6 +154,7 @@ function arc_social_share_twitter($atts, $thing=null)
 
 	extract(lAtts(array(
 		'class' => '',
+		'mention' => null,
 		'title' => null,
 		'url' => null
 	), $atts));
@@ -163,8 +164,13 @@ function arc_social_share_twitter($atts, $thing=null)
 	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
 	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 
-	$html = href($thing, "http://twitter.com/home?status=$title+$url"
-		, ' class="'.$class.'"');
+	$link = "http://twitter.com/home?status=$title+$url";
+
+	if (!empty($mention)) {
+		$link .= urlencode(" /@$mention");
+	}
+
+	$html = href($thing, $link, ' class="'.$class.'"');
 		
 	return $html;
 }
@@ -225,6 +231,10 @@ bc. <txp:arc_social_share_stumbleupon />
 h3. Twitter
 
 bc. <txp:arc_social_share_twitter />
+
+h4. Additional Attributes
+
+* mention: adds a Twitter username to the end of a tweet (__e.g.__ /@drmonkeyninja)
 
 h2. Usage
 
