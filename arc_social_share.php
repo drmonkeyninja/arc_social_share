@@ -182,9 +182,16 @@ Easily add links for sharing content with numerous social networks.
 
 h2. Installation
 
-To install go to 'Plugins' under 'Admin' and paste the plugin code into the 'Install plugin' box, 'upload' and then 'install'.
+To install go to 'Plugins' under 'Admin' and paste the plugin code into the 'Install plugin' box, 'upload' and then 'install'. You will then need to activate the plugin.
 
-h2. Usage
+h2. The Tags
+
+All tags have the following attributes:-
+
+* class: class name to be applied to the link tag
+* url: URL to share, use this to override the article's permlink
+
+All tags apart from @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
 
 h3. Delicious
 
@@ -202,6 +209,11 @@ h3. LinkedIn
 
 bc. <txp:arc_social_share_linkedin />
 
+h4. Additional Attributes
+
+* source: by default this is your site's name
+* summary: pass some summary text to LinkedIn (LinkedIn will truncate summaries greater than 256 characters long)
+
 h3. Reddit
 
 bc. <txp:arc_social_share_reddit />
@@ -214,6 +226,27 @@ h3. Twitter
 
 bc. <txp:arc_social_share_twitter />
 
+h2. Usage
+
+The majority of the tags work the same, with a few exceptions where there are additional parameters available.
+
+They can all be used as either a single tag or a wrapper tag. For example:-
+
+bc. <txp:arc_social_share_twitter />
+
+or,
+
+bc. <txp:arc_social_share_twitter>Tweet This</txp:arc_social_share_twitter>
+
+They're intended to work within an individual article context, so used in an article form. The URL used for sharing will be the default permlink created by Textpattern. However, you can override the URL:-
+
+bc. <txp:arc_social_share_twitter url='http://www.example.com' />
+
+All links created by the tags are URL encoded. 
+
+The plugin won't do anything fancy with the way the links work when clicked. So if you want to open the links in a new window you will need to put in place some JavaScript to do this yourself. You can easily add a class to the links to help target them with your JavaScript:-
+
+bc. <txp:arc_social_share_twitter class='bookmarklet' />
 
 # --- END PLUGIN HELP ---
 -->
