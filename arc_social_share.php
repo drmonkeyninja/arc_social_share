@@ -13,6 +13,28 @@ if (!defined('txpinterface'))
 # --- BEGIN PLUGIN CODE ---
 global $prefs, $txpcfg;
 
+function arc_social_share_delicious($atts, $thing=null)
+{
+	global $thisarticle;
+
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+	
+	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	
+	$url = $url===null || !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null || !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	
+	$link = "http://delicious.com/post?url=$url&amp;title=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+		
+	return $html;
+}
+
 function arc_social_share_facebook($atts, $thing=null)
 {
 	global $thisarticle;
@@ -117,6 +139,10 @@ h2. Installation
 To install go to 'Plugins' under 'Admin' and paste the plugin code into the 'Install plugin' box, 'upload' and then 'install'.
 
 h2. Usage
+
+h3. Delicious
+
+bc. <txp:arc_social_share_delicious />
 
 h3. Facebook
 
