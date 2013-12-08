@@ -52,6 +52,35 @@ function arc_social_share_gplus($atts, $thing=null)
 	return $html;
 }
 
+function arc_social_share_linkedin($atts, $thing=null)
+{
+	global $thisarticle, $prefs;
+
+	extract(lAtts(array(
+		'class' => '',
+		'source' => null,
+		'summary' => null,
+		'title' => null,
+		'url' => null
+	), $atts));
+	
+	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
+	
+	$url = $url===null || !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null || !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$source = $source===null || !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
+
+	$link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
+
+	if (!empty($summary)) {
+		$link .= "&amp;summary=$summary";
+	}
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+		
+	return $html;
+}
+
 function arc_social_share_twitter($atts, $thing=null)
 {
 	global $thisarticle;
@@ -96,6 +125,10 @@ bc. <txp:arc_social_share_facebook />
 h3. Google+
 
 bc. <txp:arc_social_share_gplus />
+
+h3. LinkedIn
+
+bc. <txp:arc_social_share_linkedin />
 
 h3. Twitter
 
