@@ -25,8 +25,8 @@ function arc_social_share_delicious($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 	
-	$url = $url===null || !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null || !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 	
 	$link = "http://delicious.com/post?url=$url&amp;title=$title";
 
@@ -41,13 +41,14 @@ function arc_social_share_facebook($atts, $thing=null)
 
 	extract(lAtts(array(
 		'class' => '',
+		'title' => null,
 		'url' => null
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 	
-	$url = $url===null ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
-	$title = urlencode($thisarticle['title']);
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 
 	$html = href($thing, "http://www.facebook.com/share.php?u=$url&amp;title=$title"
 		, ' class="'.$class.'"');
@@ -66,7 +67,7 @@ function arc_social_share_gplus($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
 	
-	$url = $url===null ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
 
 	$html = href($thing, "https://plus.google.com/share?url=$url"
 		, ' class="'.$class.'"');
@@ -88,9 +89,9 @@ function arc_social_share_linkedin($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
 	
-	$url = $url===null || !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null || !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
-	$source = $source===null || !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
 
 	$link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
 
@@ -109,13 +110,14 @@ function arc_social_share_twitter($atts, $thing=null)
 
 	extract(lAtts(array(
 		'class' => '',
+		'title' => null,
 		'url' => null
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Twitter' : parse($thing);
 	
-	$url = $url===null ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
-	$title = urlencode($thisarticle['title']);
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 
 	$html = href($thing, "http://twitter.com/home?status=$title+$url"
 		, ' class="'.$class.'"');
