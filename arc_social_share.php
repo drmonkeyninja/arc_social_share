@@ -104,6 +104,50 @@ function arc_social_share_linkedin($atts, $thing=null)
 	return $html;
 }
 
+function arc_social_share_reddit($atts, $thing=null)
+{
+	global $thisarticle;
+
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+	
+	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	
+	$link = "http://www.reddit.com/submit?$url&amp;title=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+		
+	return $html;
+}
+
+function arc_social_share_stumbleupon($atts, $thing=null)
+{
+	global $thisarticle;
+
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+	
+	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	
+	$link = "http://www.stumbleupon.com/submit?$url&amp;title=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+		
+	return $html;
+}
+
 function arc_social_share_twitter($atts, $thing=null)
 {
 	global $thisarticle;
@@ -157,6 +201,14 @@ bc. <txp:arc_social_share_gplus />
 h3. LinkedIn
 
 bc. <txp:arc_social_share_linkedin />
+
+h3. Reddit
+
+bc. <txp:arc_social_share_reddit />
+
+h3. StumbleUpon
+
+bc. <txp:arc_social_share_stumbleupon />
 
 h3. Twitter
 
