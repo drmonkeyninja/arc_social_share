@@ -1,6 +1,6 @@
 <?php
 $plugin['name'] = 'arc_social_share';
-$plugin['version'] = '1.0';
+$plugin['version'] = '1.1';
 $plugin['author'] = 'Andy Carter';
 $plugin['author_uri'] = 'http://andy-carter.com/';
 $plugin['description'] = 'Social media share links';
