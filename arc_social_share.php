@@ -111,6 +111,7 @@ function arc_social_share_pinterest($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'image' => null,
+		'title' => null,
 		'url' => null
 	), $atts));
 
@@ -124,6 +125,28 @@ function arc_social_share_pinterest($atts, $thing=null)
 	if ($image) {
 		$link .= "&amp;media=$image";
 	}
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
+	return $html;
+}
+
+function arc_social_share_pocket($atts, $thing=null)
+{
+	global $thisarticle;
+
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Add to Pocket' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
+	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 
@@ -294,6 +317,10 @@ bc. <txp:arc_social_share_pinterest />
 h4. Additional Attributes
 
 * image: URL to an image, by default this is the article's image
+
+h3. Pocket
+
+bc. <txp:arc_social_share_pocket />
 
 h3. Reddit
 
