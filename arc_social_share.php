@@ -1,6 +1,6 @@
 <?php
 $plugin['name'] = 'arc_social_share';
-$plugin['version'] = '1.1';
+$plugin['version'] = '1.2';
 $plugin['author'] = 'Andy Carter';
 $plugin['author_uri'] = 'http://andy-carter.com/';
 $plugin['description'] = 'Social media share links';
@@ -15,8 +15,6 @@ global $prefs, $txpcfg;
 
 function arc_social_share_delicious($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -25,9 +23,9 @@ function arc_social_share_delicious($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
-	
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
 	$link = "http://delicious.com/post?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
@@ -37,8 +35,6 @@ function arc_social_share_delicious($atts, $thing=null)
 
 function arc_social_share_facebook($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -47,8 +43,8 @@ function arc_social_share_facebook($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 
 	$html = href($thing, "http://www.facebook.com/share.php?u=$url&amp;title=$title"
 		, ' class="'.$class.'"');
@@ -58,8 +54,6 @@ function arc_social_share_facebook($atts, $thing=null)
 
 function arc_social_share_gplus($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'url' => null
@@ -67,7 +61,7 @@ function arc_social_share_gplus($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$url = _arc_social_share_url($url);
 
 	$html = href($thing, "https://plus.google.com/share?url=$url"
 		, ' class="'.$class.'"');
@@ -77,7 +71,7 @@ function arc_social_share_gplus($atts, $thing=null)
 
 function arc_social_share_linkedin($atts, $thing=null)
 {
-	global $thisarticle, $prefs;
+	global $prefs;
 
 	extract(lAtts(array(
 		'class' => '',
@@ -89,8 +83,8 @@ function arc_social_share_linkedin($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
 
 	$link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
@@ -101,6 +95,51 @@ function arc_social_share_linkedin($atts, $thing=null)
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 		
+	return $html;
+}
+
+function arc_social_share_pinterest($atts, $thing=null)
+{
+	extract(lAtts(array(
+		'class' => '',
+		'image' => null,
+		'title' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Share on Pinterest' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+	$image = _arc_social_share_image($image);
+
+	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
+	if ($image) {
+		$link .= "&amp;media=$image";
+	}
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
+	return $html;
+}
+
+function arc_social_share_pocket($atts, $thing=null)
+{
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Add to Pocket' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
+	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
 	return $html;
 }
 
@@ -128,8 +167,6 @@ function arc_social_share_reddit($atts, $thing=null)
 
 function arc_social_share_stumbleupon($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -138,14 +175,35 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
-	
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
 	$link = "http://www.stumbleupon.com/submit?$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 		
 	return $html;
+}
+
+function arc_social_share_tumblr($atts, $thing=null)
+{
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Share on Tumblr' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
+	$link = "http://www.tumblr.com/share?v=3&amp;u=$url&amp;t=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
+	return $html;
+
 }
 
 function arc_social_share_twitter($atts, $thing=null)
@@ -173,6 +231,47 @@ function arc_social_share_twitter($atts, $thing=null)
 	$html = href($thing, $link, ' class="'.$class.'"');
 		
 	return $html;
+}
+
+function _arc_social_share_title($title=null)
+{
+	global $thisarticle;
+
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+
+	return $title;
+}
+
+function _arc_social_share_url($url)
+{
+	global $thisarticle;
+
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+
+	return $url;
+}
+
+function _arc_social_share_image($image=null)
+{
+	global $thisarticle;
+
+	if ($image===null && !empty($thisarticle['article_image'])) {
+
+		$image = $thisarticle['article_image'];
+
+		if (intval($image)) {
+
+			if ($rs = safe_row('*', 'txp_image', 'id = ' . intval($image))) {
+				$image = urlencode(imagesrcurl($rs['id'], $rs['ext']));
+			} else {
+				$image = null;
+			}
+
+		}
+
+	}
+
+	return $image;
 }
 
 
@@ -220,6 +319,18 @@ h4. Additional Attributes
 * source: by default this is your site's name
 * summary: pass some summary text to LinkedIn (LinkedIn will truncate summaries greater than 256 characters long)
 
+h3. Pinterest
+
+bc. <txp:arc_social_share_pinterest />
+
+h4. Additional Attributes
+
+* image: URL to an image, by default this is the article's image
+
+h3. Pocket
+
+bc. <txp:arc_social_share_pocket />
+
 h3. Reddit
 
 bc. <txp:arc_social_share_reddit />
@@ -227,6 +338,10 @@ bc. <txp:arc_social_share_reddit />
 h3. StumbleUpon
 
 bc. <txp:arc_social_share_stumbleupon />
+
+h3. Tumblr
+
+bc. <txp:arc_social_share_tumblr />
 
 h3. Twitter
 
