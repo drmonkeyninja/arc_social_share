@@ -104,6 +104,32 @@ function arc_social_share_linkedin($atts, $thing=null)
 	return $html;
 }
 
+function arc_social_share_pinterest($atts, $thing=null)
+{
+	global $thisarticle;
+
+	extract(lAtts(array(
+		'class' => '',
+		'image' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Share on Pinterest' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+	$image = _arc_social_share_image($image);
+
+	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
+	if ($image) {
+		$link .= "&amp;media=$image";
+	}
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
+	return $html;
+}
+
 function arc_social_share_reddit($atts, $thing=null)
 {
 	global $thisarticle;
@@ -175,6 +201,47 @@ function arc_social_share_twitter($atts, $thing=null)
 	return $html;
 }
 
+function _arc_social_share_title($title=null)
+{
+	global $thisarticle;
+
+	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+
+	return $title;
+}
+
+function _arc_social_share_url($url)
+{
+	global $thisarticle;
+
+	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+
+	return $url;
+}
+
+function _arc_social_share_image($image=null)
+{
+	global $thisarticle;
+
+	if ($image===null && !empty($thisarticle['article_image'])) {
+
+		$image = $thisarticle['article_image'];
+
+		if (intval($image)) {
+
+			if ($rs = safe_row('*', 'txp_image', 'id = ' . intval($image))) {
+				$image = urlencode(imagesrcurl($rs['id'], $rs['ext']));
+			} else {
+				$image = null;
+			}
+
+		}
+
+	}
+
+	return $image;
+}
+
 
 # --- END PLUGIN CODE ---
 if (0) {
@@ -219,6 +286,14 @@ h4. Additional Attributes
 
 * source: by default this is your site's name
 * summary: pass some summary text to LinkedIn (LinkedIn will truncate summaries greater than 256 characters long)
+
+h3. Pinterest
+
+bc. <txp:arc_social_share_pinterest />
+
+h4. Additional Attributes
+
+* image: URL to an image, by default this is the article's image
 
 h3. Reddit
 
