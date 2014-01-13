@@ -197,6 +197,27 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 	return $html;
 }
 
+function arc_social_share_tumblr($atts, $thing=null)
+{
+	extract(lAtts(array(
+		'class' => '',
+		'title' => null,
+		'url' => null
+	), $atts));
+
+	$thing = ($thing===null) ? 'Share on Tumblr' : parse($thing);
+
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
+	$link = "http://www.tumblr.com/share?v=3&amp;u=$url&amp;t=$title";
+
+	$html = href($thing, $link, ' class="'.$class.'"');
+
+	return $html;
+
+}
+
 function arc_social_share_twitter($atts, $thing=null)
 {
 	global $thisarticle;
@@ -329,6 +350,10 @@ bc. <txp:arc_social_share_reddit />
 h3. StumbleUpon
 
 bc. <txp:arc_social_share_stumbleupon />
+
+h3. Tumblr
+
+bc. <txp:arc_social_share_tumblr />
 
 h3. Twitter
 
