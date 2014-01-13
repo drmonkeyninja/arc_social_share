@@ -15,8 +15,6 @@ global $prefs, $txpcfg;
 
 function arc_social_share_delicious($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -25,9 +23,9 @@ function arc_social_share_delicious($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
-	
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
 	$link = "http://delicious.com/post?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
@@ -37,8 +35,6 @@ function arc_social_share_delicious($atts, $thing=null)
 
 function arc_social_share_facebook($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -47,8 +43,8 @@ function arc_social_share_facebook($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 
 	$html = href($thing, "http://www.facebook.com/share.php?u=$url&amp;title=$title"
 		, ' class="'.$class.'"');
@@ -58,8 +54,6 @@ function arc_social_share_facebook($atts, $thing=null)
 
 function arc_social_share_gplus($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'url' => null
@@ -67,7 +61,7 @@ function arc_social_share_gplus($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$url = _arc_social_share_url($url);
 
 	$html = href($thing, "https://plus.google.com/share?url=$url"
 		, ' class="'.$class.'"');
@@ -77,7 +71,7 @@ function arc_social_share_gplus($atts, $thing=null)
 
 function arc_social_share_linkedin($atts, $thing=null)
 {
-	global $thisarticle, $prefs;
+	global $prefs;
 
 	extract(lAtts(array(
 		'class' => '',
@@ -89,8 +83,8 @@ function arc_social_share_linkedin($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
 
 	$link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
@@ -106,8 +100,6 @@ function arc_social_share_linkedin($atts, $thing=null)
 
 function arc_social_share_pinterest($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'image' => null,
@@ -133,8 +125,6 @@ function arc_social_share_pinterest($atts, $thing=null)
 
 function arc_social_share_pocket($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -177,8 +167,6 @@ function arc_social_share_reddit($atts, $thing=null)
 
 function arc_social_share_stumbleupon($atts, $thing=null)
 {
-	global $thisarticle;
-
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
@@ -187,9 +175,9 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
-	
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
+
 	$link = "http://www.stumbleupon.com/submit?$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
