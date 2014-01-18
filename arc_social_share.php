@@ -37,16 +37,14 @@ function arc_social_share_facebook($atts, $thing=null)
 {
 	extract(lAtts(array(
 		'class' => '',
-		'title' => null,
 		'url' => null
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 	
 	$url = _arc_social_share_url($url);
-	$title = _arc_social_share_title($title);
 
-	$html = href($thing, "http://www.facebook.com/share.php?u=$url&amp;title=$title"
+	$html = href($thing, "https://www.facebook.com/sharer/sharer.php?u=$url"
 		, ' class="'.$class.'"');
 		
 	return $html;
@@ -296,7 +294,7 @@ All tags have the following attributes:-
 * class: class name to be applied to the link tag
 * url: URL to share, use this to override the article's permlink
 
-All tags apart from @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
+All tags apart from @arc_social_share_facebook@ and @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
 
 h3. Delicious
 
