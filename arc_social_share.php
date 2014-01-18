@@ -158,7 +158,7 @@ function arc_social_share_reddit($atts, $thing=null)
 	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
 	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 	
-	$link = "http://www.reddit.com/submit?$url&amp;title=$title";
+	$link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 		
@@ -178,7 +178,7 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 	$url = _arc_social_share_url($url);
 	$title = _arc_social_share_title($title);
 
-	$link = "http://www.stumbleupon.com/submit?$url&amp;title=$title";
+	$link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 		
