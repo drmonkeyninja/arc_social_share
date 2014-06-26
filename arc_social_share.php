@@ -1,6 +1,6 @@
 <?php
 $plugin['name'] = 'arc_social_share';
-$plugin['version'] = '1.2.1';
+$plugin['version'] = '1.2.2';
 $plugin['author'] = 'Andy Carter';
 $plugin['author_uri'] = 'http://andy-carter.com/';
 $plugin['description'] = 'Social media share links';
@@ -151,10 +151,10 @@ function arc_social_share_reddit($atts, $thing=null)
 		'url' => null
 	), $atts));
 	
-	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	$thing = ($thing===null) ? 'Share on Reddit' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 	
 	$link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
 
@@ -171,7 +171,7 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 		'url' => null
 	), $atts));
 	
-	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	$thing = ($thing===null) ? 'Share on StumbleUpon' : parse($thing);
 	
 	$url = _arc_social_share_url($url);
 	$title = _arc_social_share_title($title);
@@ -217,8 +217,8 @@ function arc_social_share_twitter($atts, $thing=null)
 	
 	$thing = ($thing===null) ? 'Share on Twitter' : parse($thing);
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url);
+	$title = _arc_social_share_title($title);
 
 	$link = "http://twitter.com/home?status=$title+$url";
 
@@ -244,7 +244,13 @@ function _arc_social_share_url($url)
 {
 	global $thisarticle;
 
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$url = $url===null && !empty($thisarticle['thisid']) ? permlinkurl_id($thisarticle['thisid']) : $url;
+
+	if (!empty($url))
+	{
+		// Encode the URL
+		$url = urlencode($url);
+	}
 
 	return $url;
 }
