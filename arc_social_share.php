@@ -339,6 +339,7 @@ All tags have the following attributes:-
 
 * class: class name to be applied to the link tag
 * url: URL to share, use this to override the article's permlink
+* utm: pass '1' to enable UTM parameters for Google Analytics (off by default)
 
 All tags apart from @arc_social_share_facebook@ and @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
 
