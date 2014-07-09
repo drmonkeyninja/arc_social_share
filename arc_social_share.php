@@ -250,6 +250,7 @@ function _arc_social_share_url($url, $source=null)
 	{
 		// Add Google Analytics urchin tracking module to the URL
 		$query = "utm_source=$source&utm_medium=social&utm_campaign=arc_social_share";
+		$query .= !empty($thisarticle['thisid']) ? '&utm_content=txp:' . $thisarticle['thisid'] : '';
 		$separator = (parse_url($url, PHP_URL_QUERY) == NULL) ? '?' : '&';
 		$url .= $separator . $query;
 
