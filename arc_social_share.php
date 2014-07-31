@@ -1,6 +1,6 @@
 <?php
 $plugin['name'] = 'arc_social_share';
-$plugin['version'] = '1.2.1';
+$plugin['version'] = '1.3.0';
 $plugin['author'] = 'Andy Carter';
 $plugin['author_uri'] = 'http://andy-carter.com/';
 $plugin['description'] = 'Social media share links';
@@ -18,12 +18,15 @@ function arc_social_share_delicious($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+
+	$utmSource = $utm ? 'delicious.com' : null;
 	
-	$url = _arc_social_share_url($url);
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://delicious.com/post?url=$url&amp;title=$title";
@@ -37,12 +40,15 @@ function arc_social_share_facebook($atts, $thing=null)
 {
 	extract(lAtts(array(
 		'class' => '',
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
+
+	$utmSource = $utm ? 'facebook.com' : null;
 	
-	$url = _arc_social_share_url($url);
+	$url = _arc_social_share_url($url, $utmSource);
 
 	$html = href($thing, "https://www.facebook.com/sharer/sharer.php?u=$url"
 		, ' class="'.$class.'"');
@@ -54,12 +60,15 @@ function arc_social_share_gplus($atts, $thing=null)
 {
 	extract(lAtts(array(
 		'class' => '',
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
+
+	$utmSource = $utm ? 'gplus' : null;
 	
-	$url = _arc_social_share_url($url);
+	$url = _arc_social_share_url($url, $utmSource);
 
 	$html = href($thing, "https://plus.google.com/share?url=$url"
 		, ' class="'.$class.'"');
@@ -76,12 +85,15 @@ function arc_social_share_linkedin($atts, $thing=null)
 		'source' => null,
 		'summary' => null,
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
+
+	$utmSource = $utm ? 'linkedin' : null;
 	
-	$url = _arc_social_share_url($url);
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
 
@@ -102,12 +114,15 @@ function arc_social_share_pinterest($atts, $thing=null)
 		'class' => '',
 		'image' => null,
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 
 	$thing = ($thing===null) ? 'Share on Pinterest' : parse($thing);
 
-	$url = _arc_social_share_url($url);
+	$utmSource = $utm ? 'pinterest' : null;
+
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 	$image = _arc_social_share_image($image);
 
@@ -126,12 +141,15 @@ function arc_social_share_pocket($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 
 	$thing = ($thing===null) ? 'Add to Pocket' : parse($thing);
 
-	$url = _arc_social_share_url($url);
+	$utmSource = $utm ? 'getpocket.com' : null;
+
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
@@ -148,13 +166,16 @@ function arc_social_share_reddit($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
-	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	$thing = ($thing===null) ? 'Share on Reddit' : parse($thing);
+
+	$utmSource = $utm ? 'reddit' : null;
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : urlencode($url);
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url, $utmSource);
+	$title = _arc_social_share_title($title);
 	
 	$link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
 
@@ -168,12 +189,15 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
-	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+	$thing = ($thing===null) ? 'Share on StumbleUpon' : parse($thing);
+
+	$utmSource = $utm ? 'stumbleupon' : null;
 	
-	$url = _arc_social_share_url($url);
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
@@ -188,12 +212,15 @@ function arc_social_share_tumblr($atts, $thing=null)
 	extract(lAtts(array(
 		'class' => '',
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 
 	$thing = ($thing===null) ? 'Share on Tumblr' : parse($thing);
 
-	$url = _arc_social_share_url($url);
+	$utmSource = $utm ? 'tumblr' : null;
+
+	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://www.tumblr.com/share?v=3&amp;u=$url&amp;t=$title";
@@ -212,13 +239,16 @@ function arc_social_share_twitter($atts, $thing=null)
 		'class' => '',
 		'mention' => null,
 		'title' => null,
-		'url' => null
+		'url' => null,
+		'utm' => false
 	), $atts));
 	
 	$thing = ($thing===null) ? 'Share on Twitter' : parse($thing);
+
+	$utmSource = $utm ? 'twitter.com' : null;
 	
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+	$url = _arc_social_share_url($url, $utmSource);
+	$title = _arc_social_share_title($title);
 
 	$link = "http://twitter.com/home?status=$title+$url";
 
@@ -240,11 +270,27 @@ function _arc_social_share_title($title=null)
 	return $title;
 }
 
-function _arc_social_share_url($url)
+function _arc_social_share_url($url, $source=null)
 {
 	global $thisarticle;
 
-	$url = $url===null && !empty($thisarticle['thisid']) ? urlencode(permlinkurl_id($thisarticle['thisid'])) : $url;
+	$url = $url===null && !empty($thisarticle['thisid']) ? permlinkurl_id($thisarticle['thisid']) : $url;
+
+	if (!empty($url) && !empty($source))
+	{
+		// Add Google Analytics urchin tracking module to the URL
+		$query = "utm_source=$source&utm_medium=social&utm_campaign=arc_social_share";
+		$query .= !empty($thisarticle['thisid']) ? '&utm_content=txp:' . $thisarticle['thisid'] : '';
+		$separator = (parse_url($url, PHP_URL_QUERY) == NULL) ? '?' : '&';
+		$url .= $separator . $query;
+
+	}
+
+	if (!empty($url))
+	{
+		// Encode the URL
+		$url = urlencode($url);
+	}
 
 	return $url;
 }
@@ -293,6 +339,7 @@ All tags have the following attributes:-
 
 * class: class name to be applied to the link tag
 * url: URL to share, use this to override the article's permlink
+* utm: pass '1' to enable UTM parameters for Google Analytics (off by default)
 
 All tags apart from @arc_social_share_facebook@ and @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
 
@@ -370,6 +417,22 @@ All links created by the tags are URL encoded.
 The plugin won't do anything fancy with the way the links work when clicked. So if you want to open the links in a new window you will need to put in place some JavaScript to do this yourself. You can easily add a class to the links to help target them with your JavaScript:-
 
 bc. <txp:arc_social_share_twitter class='bookmarklet' />
+
+h2. Author
+
+"Andy Carter":http://andy-carter.com. For other Textpattern plugins by me visit my "Plugins page":http://andy-carter.com/txp.
+
+h2. License
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Andy Carter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # --- END PLUGIN HELP ---
 -->
