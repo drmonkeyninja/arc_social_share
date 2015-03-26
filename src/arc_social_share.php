@@ -1,6 +1,6 @@
-<?php
+–<?php
 $plugin['name'] = 'arc_social_share';
-$plugin['version'] = '1.3.0';
+$plugin['version'] = '1.3.1';
 $plugin['author'] = 'Andy Carter';
 $plugin['author_uri'] = 'http://andy-carter.com/';
 $plugin['description'] = 'Social media share links';
@@ -21,18 +21,18 @@ function arc_social_share_delicious($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 
 	$utmSource = $utm ? 'delicious.com' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://delicious.com/post?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -43,16 +43,16 @@ function arc_social_share_facebook($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 
 	$utmSource = $utm ? 'facebook.com' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 
 	$html = href($thing, "https://www.facebook.com/sharer/sharer.php?u=$url"
 		, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -63,16 +63,16 @@ function arc_social_share_gplus($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
 
 	$utmSource = $utm ? 'gplus' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 
 	$html = href($thing, "https://plus.google.com/share?url=$url"
 		, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -88,11 +88,11 @@ function arc_social_share_linkedin($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
 
 	$utmSource = $utm ? 'linkedin' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
@@ -104,7 +104,7 @@ function arc_social_share_linkedin($atts, $thing=null)
 	}
 
 	$html = href($thing, $link, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -152,7 +152,7 @@ function arc_social_share_pocket($atts, $thing=null)
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
-	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
+	$link = "https://getpocket.com/save?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
 
@@ -169,18 +169,18 @@ function arc_social_share_reddit($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on Reddit' : parse($thing);
 
 	$utmSource = $utm ? 'reddit' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
-	
+
 	$link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -192,18 +192,18 @@ function arc_social_share_stumbleupon($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on StumbleUpon' : parse($thing);
 
 	$utmSource = $utm ? 'stumbleupon' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
 	$link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
 
 	$html = href($thing, $link, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -242,11 +242,11 @@ function arc_social_share_twitter($atts, $thing=null)
 		'url' => null,
 		'utm' => false
 	), $atts));
-	
+
 	$thing = ($thing===null) ? 'Share on Twitter' : parse($thing);
 
 	$utmSource = $utm ? 'twitter.com' : null;
-	
+
 	$url = _arc_social_share_url($url, $utmSource);
 	$title = _arc_social_share_title($title);
 
@@ -257,7 +257,7 @@ function arc_social_share_twitter($atts, $thing=null)
 	}
 
 	$html = href($thing, $link, ' class="'.$class.'"');
-		
+
 	return $html;
 }
 
@@ -412,7 +412,7 @@ They're intended to work within an individual article context, so used in an art
 
 bc. <txp:arc_social_share_twitter url='http://www.example.com' />
 
-All links created by the tags are URL encoded. 
+All links created by the tags are URL encoded.
 
 The plugin won't do anything fancy with the way the links work when clicked. So if you want to open the links in a new window you will need to put in place some JavaScript to do this yourself. You can easily add a class to the links to help target them with your JavaScript:-
 
@@ -426,7 +426,7 @@ h2. License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Andy Carter
+Copyright (c) 2015 Andy Carter
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
