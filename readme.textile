@@ -1,0 +1,5 @@
+h1. arc_social_share
+
+A Social Bookmarking Plugin for Textpattern; easily add links for sharing content with numerous social networks.
+
+* "Full documentation and the latest download link":http://andy-carter.com/txp/arc_social_share
