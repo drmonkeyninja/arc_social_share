@@ -1,4 +1,4 @@
-# arc_social_share v1.3.1
+# arc_social_share v1.3.2
 # Social media share links
 # Andy Carter
 # http://andy-carter.com/
@@ -10,7 +10,7 @@
 # ......................................................................
 
 YToxMDp7czo0OiJuYW1lIjtzOjE2OiJhcmNfc29jaWFsX3NoYXJlIjtzOjc6InZlcnNpb24i
-O3M6NToiMS4zLjEiO3M6NjoiYXV0aG9yIjtzOjExOiJBbmR5IENhcnRlciI7czoxMDoiYXV0
+O3M6NToiMS4zLjIiO3M6NjoiYXV0aG9yIjtzOjExOiJBbmR5IENhcnRlciI7czoxMDoiYXV0
 aG9yX3VyaSI7czoyMzoiaHR0cDovL2FuZHktY2FydGVyLmNvbS8iO3M6MTE6ImRlc2NyaXB0
 aW9uIjtzOjI0OiJTb2NpYWwgbWVkaWEgc2hhcmUgbGlua3MiO3M6NToib3JkZXIiO3M6MToi
 NSI7czo0OiJ0eXBlIjtzOjE6IjAiO3M6NDoiaGVscCI7czo2MzYzOiIJPGgxPmFyY19zb2Np
