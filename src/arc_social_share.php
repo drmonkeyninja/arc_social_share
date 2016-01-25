@@ -7,315 +7,310 @@ $plugin['description'] = 'Social media share links';
 $plugin['order'] = '5';
 $plugin['type'] = '0';
 
-if (!defined('txpinterface'))
-	@include_once('zem_tpl.php');
+if (!defined('txpinterface')) {
+    @include_once('zem_tpl.php');
+}
 
 # --- BEGIN PLUGIN CODE ---
 global $prefs, $txpcfg;
 
-function arc_social_share_delicious($atts, $thing=null)
+function arc_social_share_delicious($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
+    $thing = ($thing===null) ? 'Share on Delicious' : parse($thing);
 
-	$utmSource = $utm ? 'delicious.com' : null;
+    $utmSource = $utm ? 'delicious.com' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "http://delicious.com/post?url=$url&amp;title=$title";
+    $link = "http://delicious.com/post?url=$url&amp;title=$title";
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_facebook($atts, $thing=null)
+function arc_social_share_facebook($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
+    $thing = ($thing===null) ? 'Share on Facebook' : parse($thing);
 
-	$utmSource = $utm ? 'facebook.com' : null;
+    $utmSource = $utm ? 'facebook.com' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
+    $url = _arc_social_share_url($url, $utmSource);
 
-	$html = href($thing, "https://www.facebook.com/sharer/sharer.php?u=$url"
-		, ' class="'.$class.'"');
+    $html = href($thing, "https://www.facebook.com/sharer/sharer.php?u=$url", ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_gplus($atts, $thing=null)
+function arc_social_share_gplus($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Google+' : parse($thing);
+    $thing = ($thing === null) ? 'Share on Google+' : parse($thing);
 
-	$utmSource = $utm ? 'gplus' : null;
+    $utmSource = $utm ? 'gplus' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
+    $url = _arc_social_share_url($url, $utmSource);
 
-	$html = href($thing, "https://plus.google.com/share?url=$url"
-		, ' class="'.$class.'"');
+    $html = href($thing, "https://plus.google.com/share?url=$url", ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_linkedin($atts, $thing=null)
+function arc_social_share_linkedin($atts, $thing = null)
 {
-	global $prefs;
+    global $prefs;
 
-	extract(lAtts(array(
-		'class' => '',
-		'source' => null,
-		'summary' => null,
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'source' => null,
+        'summary' => null,
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on LinkedIn' : parse($thing);
+    $thing = ($thing === null) ? 'Share on LinkedIn' : parse($thing);
 
-	$utmSource = $utm ? 'linkedin' : null;
+    $utmSource = $utm ? 'linkedin' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
-	$source = $source===null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
+    $source = $source === null && !empty($prefs['sitename']) ? urldecode($prefs['sitename']) : urlencode($source);
 
-	$link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
+    $link = "http://www.linkedin.com/shareArticle?mini=true&amp;url=$url&amp;title=$title&amp;source=$source";
 
-	if (!empty($summary)) {
-		$link .= "&amp;summary=$summary";
-	}
+    if (!empty($summary)) {
+        $link .= "&amp;summary=$summary";
+    }
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_pinterest($atts, $thing=null)
+function arc_social_share_pinterest($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'image' => null,
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'image' => null,
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Pinterest' : parse($thing);
+    $thing = ($thing === null) ? 'Share on Pinterest' : parse($thing);
 
-	$utmSource = $utm ? 'pinterest' : null;
+    $utmSource = $utm ? 'pinterest' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
-	$image = _arc_social_share_image($image);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
+    $image = _arc_social_share_image($image);
 
-	$link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
-	if ($image) {
-		$link .= "&amp;media=$image";
-	}
+    $link = "http://www.pinterest.com/pin/create/button/?url=$url&amp;description=$title";
+    if ($image) {
+        $link .= "&amp;media=$image";
+    }
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_pocket($atts, $thing=null)
+function arc_social_share_pocket($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Add to Pocket' : parse($thing);
+    $thing = ($thing === null) ? 'Add to Pocket' : parse($thing);
 
-	$utmSource = $utm ? 'getpocket.com' : null;
+    $utmSource = $utm ? 'getpocket.com' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "https://getpocket.com/save?url=$url&amp;title=$title";
+    $link = "https://getpocket.com/save?url=$url&amp;title=$title";
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_reddit($atts, $thing=null)
+function arc_social_share_reddit($atts, $thing = null)
 {
-	global $thisarticle;
+    global $thisarticle;
 
-	extract(lAtts(array(
-		'class' => '',
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Reddit' : parse($thing);
+    $thing = ($thing === null) ? 'Share on Reddit' : parse($thing);
 
-	$utmSource = $utm ? 'reddit' : null;
+    $utmSource = $utm ? 'reddit' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
+    $link = "http://www.reddit.com/submit?url=$url&amp;title=$title";
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_stumbleupon($atts, $thing=null)
+function arc_social_share_stumbleupon($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on StumbleUpon' : parse($thing);
+    $thing = ($thing === null) ? 'Share on StumbleUpon' : parse($thing);
 
-	$utmSource = $utm ? 'stumbleupon' : null;
+    $utmSource = $utm ? 'stumbleupon' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
+    $link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function arc_social_share_tumblr($atts, $thing=null)
+function arc_social_share_tumblr($atts, $thing = null)
 {
-	extract(lAtts(array(
-		'class' => '',
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Tumblr' : parse($thing);
+    $thing = ($thing === null) ? 'Share on Tumblr' : parse($thing);
 
-	$utmSource = $utm ? 'tumblr' : null;
+    $utmSource = $utm ? 'tumblr' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "http://www.tumblr.com/share?v=3&amp;u=$url&amp;t=$title";
+    $link = "http://www.tumblr.com/share?v=3&amp;u=$url&amp;t=$title";
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 
 }
 
-function arc_social_share_twitter($atts, $thing=null)
+function arc_social_share_twitter($atts, $thing = null)
 {
-	global $thisarticle;
+    global $thisarticle;
 
-	extract(lAtts(array(
-		'class' => '',
-		'mention' => null,
-		'title' => null,
-		'url' => null,
-		'utm' => false
-	), $atts));
+    extract(lAtts(array(
+        'class' => '',
+        'mention' => null,
+        'title' => null,
+        'url' => null,
+        'utm' => false
+    ), $atts));
 
-	$thing = ($thing===null) ? 'Share on Twitter' : parse($thing);
+    $thing = ($thing === null) ? 'Share on Twitter' : parse($thing);
 
-	$utmSource = $utm ? 'twitter.com' : null;
+    $utmSource = $utm ? 'twitter.com' : null;
 
-	$url = _arc_social_share_url($url, $utmSource);
-	$title = _arc_social_share_title($title);
+    $url = _arc_social_share_url($url, $utmSource);
+    $title = _arc_social_share_title($title);
 
-	$link = "http://twitter.com/home?status=$title+$url";
+    $link = "http://twitter.com/home?status=$title+$url";
 
-	if (!empty($mention)) {
-		$link .= urlencode(" /@$mention");
-	}
+    if (!empty($mention)) {
+        $link .= urlencode(" /@$mention");
+    }
 
-	$html = href($thing, $link, ' class="'.$class.'"');
+    $html = href($thing, $link, ' class="' . $class . '"');
 
-	return $html;
+    return $html;
 }
 
-function _arc_social_share_title($title=null)
+function _arc_social_share_title($title = null)
 {
-	global $thisarticle;
+    global $thisarticle;
 
-	$title = $title===null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
+    $title = $title === null && !empty($thisarticle['title']) ? urlencode($thisarticle['title']) : urlencode($title);
 
-	return $title;
+    return $title;
 }
 
-function _arc_social_share_url($url, $source=null)
+function _arc_social_share_url($url, $source = null)
 {
-	global $thisarticle;
+    global $thisarticle;
 
-	$url = $url===null && !empty($thisarticle['thisid']) ? permlinkurl_id($thisarticle['thisid']) : $url;
+    $url = $url === null && !empty($thisarticle['thisid']) ? permlinkurl_id($thisarticle['thisid']) : $url;
 
-	if (!empty($url) && !empty($source))
-	{
-		// Add Google Analytics urchin tracking module to the URL
-		$query = "utm_source=$source&utm_medium=social&utm_campaign=arc_social_share";
-		$query .= !empty($thisarticle['thisid']) ? '&utm_content=txp:' . $thisarticle['thisid'] : '';
-		$separator = (parse_url($url, PHP_URL_QUERY) == NULL) ? '?' : '&';
-		$url .= $separator . $query;
+    if (!empty($url) && !empty($source)) {
+        // Add Google Analytics urchin tracking module to the URL
+        $query = "utm_source=$source&utm_medium=social&utm_campaign=arc_social_share";
+        $query .= !empty($thisarticle['thisid']) ? '&utm_content=txp:' . $thisarticle['thisid'] : '';
+        $separator = (parse_url($url, PHP_URL_QUERY) == null) ? '?' : '&';
+        $url .= $separator . $query;
 
-	}
+    }
 
-	if (!empty($url))
-	{
-		// Encode the URL
-		$url = urlencode($url);
-	}
+    if (!empty($url)) {
+        // Encode the URL
+        $url = urlencode($url);
+    }
 
-	return $url;
+    return $url;
 }
 
-function _arc_social_share_image($image=null)
+function _arc_social_share_image($image = null)
 {
-	global $thisarticle;
+    global $thisarticle;
 
-	if ($image===null && !empty($thisarticle['article_image'])) {
+    if ($image === null && !empty($thisarticle['article_image'])) {
+        $image = $thisarticle['article_image'];
 
-		$image = $thisarticle['article_image'];
+        if (intval($image)) {
+            if ($rs = safe_row('*', 'txp_image', 'id = ' . intval($image))) {
+                $image = urlencode(imagesrcurl($rs['id'], $rs['ext']));
+            } else {
+                $image = null;
+            }
 
-		if (intval($image)) {
+        }
 
-			if ($rs = safe_row('*', 'txp_image', 'id = ' . intval($image))) {
-				$image = urlencode(imagesrcurl($rs['id'], $rs['ext']));
-			} else {
-				$image = null;
-			}
+    }
 
-		}
-
-	}
-
-	return $image;
+    return $image;
 }
 
 
