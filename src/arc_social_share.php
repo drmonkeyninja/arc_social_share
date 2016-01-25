@@ -14,6 +14,21 @@ if (!defined('txpinterface')) {
 # --- BEGIN PLUGIN CODE ---
 global $prefs, $txpcfg;
 
+if (class_exists('\Textpattern\Tag\Registry')) {
+    // Register Textpattern tags for TXP 4.6+.
+    Txp::get('\Textpattern\Tag\Registry')
+        ->register('arc_social_share_delicious')
+        ->register('arc_social_share_facebook')
+        ->register('arc_social_share_gplus')
+        ->register('arc_social_share_linkedin')
+        ->register('arc_social_share_pinterest')
+        ->register('arc_social_share_pocket')
+        ->register('arc_social_share_reddit')
+        ->register('arc_social_share_stumbleupon')
+        ->register('arc_social_share_tumblr')
+        ->register('arc_social_share_twitter');
+}
+
 function arc_social_share_delicious($atts, $thing = null)
 {
     extract(lAtts(array(
