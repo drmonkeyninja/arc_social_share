@@ -2,4 +2,93 @@ h1. arc_social_share
 
 A Social Bookmarking Plugin for Textpattern; easily add links for sharing content with numerous social networks.
 
-* "Full documentation and the latest download link":http://andy-carter.com/txp/arc_social_share
+arc_social_share 1.4.x is Textpattern 4.6 ready!
+
+h2. Installation
+
+To install go to 'Plugins' under 'Admin' and paste the plugin code into the 'Install plugin' box, 'upload' and then 'install'. You will then need to activate the plugin.
+
+h2. The Tags
+
+All tags have the following attributes:-
+
+* class: class name to be applied to the link tag
+* url: URL to share, use this to override the article's permlink
+* utm: pass '1' to enable UTM parameters for Google Analytics (off by default)
+
+All tags apart from @arc_social_share_facebook@ and @arc_social_share_gplus@ have a 'title' attribute for overridding the article's title to be included in the share link.
+
+h3. Delicious
+
+bc. <txp:arc_social_share_delicious />
+
+h3. Facebook
+
+bc. <txp:arc_social_share_facebook />
+
+h3. Google+
+
+bc. <txp:arc_social_share_gplus />
+
+h3. LinkedIn
+
+bc. <txp:arc_social_share_linkedin />
+
+h4. Additional Attributes
+
+* source: by default this is your site's name
+* summary: pass some summary text to LinkedIn (LinkedIn will truncate summaries greater than 256 characters long)
+
+h3. Pinterest
+
+bc. <txp:arc_social_share_pinterest />
+
+h4. Additional Attributes
+
+* image: URL to an image, by default this is the article's image
+
+h3. Pocket
+
+bc. <txp:arc_social_share_pocket />
+
+h3. Reddit
+
+bc. <txp:arc_social_share_reddit />
+
+h3. StumbleUpon
+
+bc. <txp:arc_social_share_stumbleupon />
+
+h3. Tumblr
+
+bc. <txp:arc_social_share_tumblr />
+
+h3. Twitter
+
+bc. <txp:arc_social_share_twitter />
+
+h4. Additional Attributes
+
+* mention: adds a Twitter username to the end of a tweet (__e.g.__ /@drmonkeyninja)
+
+h2. Usage
+
+The majority of the tags work the same, with a few exceptions where there are additional parameters available.
+
+They can all be used as either a single tag or a wrapper tag. For example:-
+
+bc. <txp:arc_social_share_twitter />
+
+or,
+
+bc. <txp:arc_social_share_twitter>Tweet This</txp:arc_social_share_twitter>
+
+They're intended to work within an individual article context, so used in an article form. The URL used for sharing will be the default permlink created by Textpattern. However, you can override the URL:-
+
+bc. <txp:arc_social_share_twitter url='http://www.example.com' />
+
+All links created by the tags are URL encoded.
+
+The plugin won't do anything fancy with the way the links work when clicked. So if you want to open the links in a new window you will need to put in place some JavaScript to do this yourself. You can easily add a class to the links to help target them with your JavaScript:-
+
+bc. <txp:arc_social_share_twitter class='bookmarklet' />
