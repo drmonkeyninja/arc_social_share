@@ -2,7 +2,7 @@ h1. arc_social_share
 
 A Social Bookmarking Plugin for Textpattern; easily add links for sharing content with numerous social networks.
 
-arc_social_share 1.4.x is Textpattern 4.6 ready!
+arc_social_share 1.4.x is Textpattern 4.7 ready!
 
 h2. Installation
 
